@@ -1,6 +1,8 @@
 {% ckan_extends %}
 {{ super() }}
-{% block featured %}
+
+{% block packages_list %}
+
     {% for feature_row in h.get_homepage_resource_views() | batch(2) %}
           <div class="row-fluid">
               {% for feature in feature_row %}
@@ -17,4 +19,8 @@
               {% endfor %}
           </div>
     {% endfor %}
+
+    {% if c.page.items %}
+      {{ h.snippet('snippets/package_list.html', packages=c.page.items) }}
+    {% endif %}
 {% endblock %}
