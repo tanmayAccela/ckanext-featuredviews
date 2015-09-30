@@ -85,3 +85,28 @@ def _get_homepage_views():
         })
 
     return homepage_views
+
+"""
+def _get_organizationpage_views():
+    organizationpage_view_ids = [
+        view.resource_view_id for view in db.Featured.find(organizationpage=True).all()
+    ]
+
+    resource_views = model.Session.query(model.ResourceView).filter(
+        model.ResourceView.id.in_(organizationpage_view_ids)
+    ).all()
+
+    organizationpage_views = []
+    for view in resource_views:
+        resource_view = md.resource_view_dictize(view, {'model': model})
+        resource_obj = model.Resource.get(resource_view['resource_id'])
+        resource = md.resource_dictize(resource_obj, {'model': model})
+
+        organizationpage_views.append({
+            'resource_view': resource_view,
+            'resource': resource,
+            'package': md.package_dictize(resource_obj.package, {'model':model})
+        })
+
+    return organizationpage_views
+"""

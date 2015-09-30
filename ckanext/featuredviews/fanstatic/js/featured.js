@@ -36,4 +36,22 @@ $(document).ready(function(){
             }
         })
     });
+
+    $('#organizationpage').click(function(){
+        data = {
+            'resource_view_id': active_view,
+            'homepage': $('#homepage').hasClass('active'),
+            'canonical': $('#canonical').hasClass('active'),
+            'organizationpage':!$(this).hasClass('active')
+        }
+        ckanapi.action('featured_upsert', data, function(err, result){
+            if (err == null){
+                if (result['result']['organizationpage'] === 'True'){
+                    $('#organizationpage').addClass('active');
+                } else {
+                    $('#organizationpage').removeClass('active');
+                }
+            }
+        })
+    });
 });

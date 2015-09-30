@@ -1,0 +1,32 @@
+{% ckan_extends %}
+
+{% block primary_content_inner %}
+      {% set sorting = [
+        (_('Relevance'), 'score desc, metadata_modified desc'),
+        (_('Name Ascending'), 'title_string asc'),
+        (_('Name Descending'), 'title_string desc'),
+        (_('Last Modified'), 'metadata_modified desc'),
+        (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ]
+      %}
+
+    {% snippet 'snippets/search_form.html', form_id='organization-datasets-search-form', type='dataset', query=c.q, sorting=sorting, sorting_selected=c.sort_by_selected, count=c.page.item_count, facets=facets, placeholder=_('Search datasets...'), show_empty=request.params, fields=c.fields %}
+
+    {% for feature_row in h.get_homepage_resource_views() | batch(2) %}
+          <div class="row-fluid">
+              {% for feature in feature_row %}
+              <div class="span6">
+                  <div class="well">
+                      <h2 style="margin-bottom:0; position: absolute;">{{ h.link_to(h.truncate(feature['package']['name'], 80), h.url_for(controller='package', action='read', id=feature['package']['name'])) }}</h2>
+                      {% snippet 'package/snippets/resource_view.html',
+                          resource_view = feature['resource_view'],
+                          resource = feature['resource'],
+                          package = feature['package']
+                      %}
+                  </div>
+              </div>
+              {% endfor %}
+          </div>
+        {% endfor %}
+
+
+{% endblock %}
