@@ -1,5 +1,5 @@
 {% ckan_extends %}
-
+{{ super() }}
 {% block featured %}
     {% for feature_row in h.get_homepage_resource_views() | batch(2) %}
           <div class="row-fluid">
@@ -16,5 +16,5 @@
               </div>
               {% endfor %}
           </div>
-        {% endfor %}
+    {% endfor %}
 {% endblock %}
