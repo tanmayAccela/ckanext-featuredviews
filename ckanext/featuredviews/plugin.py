@@ -66,10 +66,11 @@ def _get_canonical_view(package_id):
 
 def _get_homepage_views():
     print '\n\nDEBUG:'
-    print str(c.page.items[0]['package_id'])
+    pkg_id = c.page.items[0]['id']
+    print pkg_id
     print '\n\n'
     homepage_view_ids = [
-        view.resource_view_id for view in db.Featured.find(homepage=True).all()
+        view.resource_view_id for view in db.Featured.find(homepage=True, package_id=pkg_id).all()
     ]
 
     resource_views = model.Session.query(model.ResourceView).filter(
