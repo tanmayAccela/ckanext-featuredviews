@@ -65,8 +65,9 @@ def _get_canonical_view(package_id):
     return {'resource': resource, 'resource_view': resource_view}
 
 def _get_homepage_views():
-    print str(c)
-    print str(g)
+    print '\n\nDEBUG:'
+    print str(c.page.items)
+    print '\n\n'
     homepage_view_ids = [
         view.resource_view_id for view in db.Featured.find(homepage=True).all()
     ]
