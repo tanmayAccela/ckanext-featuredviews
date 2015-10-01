@@ -4,6 +4,7 @@ import ckan.model as model
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.dictization.model_dictize as md
+from ckan.common import c, g
 
 from ckan.lib.dictization import table_dictize
 
@@ -64,6 +65,8 @@ def _get_canonical_view(package_id):
     return {'resource': resource, 'resource_view': resource_view}
 
 def _get_homepage_views():
+    print str(c)
+    print str(g)
     homepage_view_ids = [
         view.resource_view_id for view in db.Featured.find(homepage=True).all()
     ]
