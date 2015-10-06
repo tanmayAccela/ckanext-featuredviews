@@ -2,7 +2,7 @@
 
 {% block packages_list %}
 
-    {% for feature_row in h.get_homepage_resource_views() | batch(2) %}
+    {% for feature_row in h.get_organizationpage_resource_views() | batch(2) %}
           <div class="row-fluid">
               {% for feature in feature_row %}
               <div class="span6">

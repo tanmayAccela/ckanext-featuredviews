@@ -16,7 +16,7 @@ setup(
     # http://packaging.python.org/en/latest/tutorial.html#version
     version='0.0.2',
 
-    description='''Display select resource views on dataset and home pages''',
+    description='''Display select resource views on dataset and organization pages''',
     long_description=long_description,
 
     # The project's main homepage.

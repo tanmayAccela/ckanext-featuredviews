@@ -38,9 +38,9 @@ class FeaturedCommands(CkanCommand):
             print self.__doc__
 
     def _migrate(self):
-        if not db.featured_table.exists():
-            db.featured_table.create()
-            log.info('Featured Views table created')
+        if not db.civicdata_featured_table.exists():
+            db.civicdata_featured_table.create()
+            log.info('Civicdata_Featured Views table created')
         else:
-            log.warning('Features Views table already exists')
-            print 'Featured Views table already exists'
+            log.warning('Civicdata_Features Views table already exists')
+            print 'Civicdata_Featured Views table already exists'

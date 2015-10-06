@@ -2,7 +2,7 @@
 ckanext-featuredviews
 =============
 
-Display select resource views on dataset and home pages.
+Display select resource views on dataset and organization pages.
 
 By default, CKAN only shows Resource Views on the resource page, but has no
 mechanism for showing users which resources have visualizations, and where the
@@ -25,7 +25,7 @@ Add to the list of plugins: ::
     ckan.plugins = ... featuredviews
 
 
-The database table for featured views should be created automatically at startup.
+The database table for civicdata_featured views should be created automatically at startup.
 So the following command is optional: ::
 
     paster --plugin=ckanext-featuredviews featured migrate -c production.ini

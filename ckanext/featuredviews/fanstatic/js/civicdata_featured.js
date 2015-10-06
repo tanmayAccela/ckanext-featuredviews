@@ -6,10 +6,10 @@ $(document).ready(function(){
     $('#canonical').click(function(){
         data = {
             'resource_view_id': active_view,
-            'homepage': $('#homepage').hasClass('active'),
+            'organizationpage': $('#organizationpage').hasClass('active'),
             'canonical': !$(this).hasClass('active')
         }
-        ckanapi.action('featured_upsert', data, function(err, result){
+        ckanapi.action('civicdata_featured_upsert', data, function(err, result){
             if (err == null){
                 if (result['result']['canonical'] === 'True'){
                     $('#canonical').addClass('active');
@@ -20,31 +20,13 @@ $(document).ready(function(){
         })
     });
 
-    $('#homepage').click(function(){
-        data = {
-            'resource_view_id': active_view,
-            'homepage': !$(this).hasClass('active'),
-            'canonical': $('#canonical').hasClass('active')
-        }
-        ckanapi.action('featured_upsert', data, function(err, result){
-            if (err == null){
-                if (result['result']['homepage'] === 'True'){
-                    $('#homepage').addClass('active');
-                } else {
-                    $('#homepage').removeClass('active');
-                }
-            }
-        })
-    });
-
     $('#organizationpage').click(function(){
         data = {
             'resource_view_id': active_view,
-            'homepage': $('#homepage').hasClass('active'),
-            'canonical': $('#canonical').hasClass('active'),
-            'organizationpage':!$(this).hasClass('active')
+            'organizationpage': !$(this).hasClass('active'),
+            'canonical': $('#canonical').hasClass('active')
         }
-        ckanapi.action('featured_upsert', data, function(err, result){
+        ckanapi.action('civicdata_featured_upsert', data, function(err, result){
             if (err == null){
                 if (result['result']['organizationpage'] === 'True'){
                     $('#organizationpage').addClass('active');
