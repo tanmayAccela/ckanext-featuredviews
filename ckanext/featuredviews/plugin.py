@@ -37,7 +37,7 @@ class FeaturedviewsPlugin(plugins.SingletonPlugin):
         helpers = {
             'get_civicdata_featured_view': _get_civicdata_featured_view,
             'get_canonical_resource_view': _get_canonical_view,
-            'get_oragnaizationpage_resource_views': _get_organizationpage_views
+            'get_organizationpage_resource_views': _get_organizationpage_views
         }
         return helpers
 

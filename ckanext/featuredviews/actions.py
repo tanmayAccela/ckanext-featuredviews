@@ -14,7 +14,7 @@ schema = {
     'resource_view_id': [get_validator('not_empty'), unicode],
     'package_id': [get_validator('ignore_empty'), unicode],
     'canonical': [get_validator('boolean_validator'), unicode],
-    'oragnaizationpage': [get_validator('boolean_validator'), unicode]
+    'organizationpage': [get_validator('boolean_validator'), unicode]
 }
 
 schema_get = {
@@ -30,7 +30,7 @@ def civicdata_featured_create(context, data_dict):
     featured = db.Civicdata_Featured()
     featured.resource_view_id = data['resource_view_id']
     featured.canonical = data.get('canonical', False)
-    featured.oragnaizationpage = data.get('oragnaizationpage', False)
+    featured.organizationpage = data.get('organizationpage', False)
 
     resource_id = model.ResourceView.get(featured.resource_view_id).resource_id
     featured.package_id = model.Package.get(resource_id).package_id
@@ -70,8 +70,8 @@ def civicdata_featured_upsert(context, data_dict):
     if data.has_key('canonical'):
         featured.canonical = data['canonical']
 
-    if data.has_key('oragnaizationpage'):
-        featured.oragnaizationpage = data['oragnaizationpage']
+    if data.has_key('organizationpage'):
+        featured.organizationpage = data['organizationpage']
 
     resource_id = model.ResourceView.get(featured.resource_view_id).resource_id
     featured.package_id = model.Resource.get(resource_id).package_id
