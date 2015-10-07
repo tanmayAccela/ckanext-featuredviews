@@ -65,19 +65,19 @@ def _get_canonical_view(package_id):
     return {'resource': resource, 'resource_view': resource_view}
 
 def _get_organizationpage_views():
+    organizationpage_view_ids = []
     organizationpage_views = []
     # list out all the resource ID whose is featured with package IDs in the organization
     try:
         resp = c.page.items
-        
-        if len(resp)>0 and resp[0].has_key('id'):
-            pkg_id = resp[0]['id']
-            # print pkg_id
-            organizationpage_view_ids = [
-                view.resource_view_id for view in db.Civicdata_Featured.find(organizationpage=True, package_id=pkg_id).all()
-            ]
-            resource_views = model.Session.query(model.ResourceView).filter(model.ResourceView.id.in_(organizationpage_view_ids)).all()
 
+        if len(resp)>0 and resp[0].has_key('id'):
+            for items in resp:
+                pkg_id = items['id']
+                for view in db.Civicdata_Featured.find(organizationpage=True, package_id=pkg_id).all():
+                    organizationpage_view_ids.append(view.resource_view_id)
+
+            resource_views = model.Session.query(model.ResourceView).filter(model.ResourceView.id.in_(organizationpage_view_ids)).all()
 
             for view in resource_views:
                 resource_view = md.resource_view_dictize(view, {'model': model})
