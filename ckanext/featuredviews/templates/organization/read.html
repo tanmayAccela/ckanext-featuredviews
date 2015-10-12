@@ -1,13 +1,8 @@
-<div role="main" class="hero">
-    <div class="container">
-        {% block search %}
-        {% snippet 'home/snippets/search.html' %}
-        {% endblock %}
-    </div>
-</div>
-<div role="main">
-    <div class="container">
-        {% for feature_row in h.get_homepage_resource_views() | batch(2) %}
+{% ckan_extends %}
+
+{% block packages_list %}
+
+    {% for feature_row in h.get_organizationpage_resource_views() | batch(2) %}
           <div class="row-fluid">
               {% for feature in feature_row %}
               <div class="span6">
@@ -22,6 +17,9 @@
               </div>
               {% endfor %}
           </div>
-        {% endfor %}
-    </div>
-</div>
+    {% endfor %}
+
+    {% if c.page.items %}
+      {{ h.snippet('snippets/package_list.html', packages=c.page.items) }}
+    {% endif %}
+{% endblock %}

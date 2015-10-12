@@ -4,6 +4,7 @@ import ckan.model as model
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.dictization.model_dictize as md
+from ckan.common import c, g
 
 from ckan.lib.dictization import table_dictize
 
@@ -15,41 +16,41 @@ class FeaturedviewsPlugin(plugins.SingletonPlugin):
     
     # IConfigurable
     def configure(self, config):
-        if not db.featured_table.exists():
-            db.featured_table.create()
+        if not db.civicdata_featured_table.exists():
+            db.civicdata_featured_table.create()
 
     # IConfigurer
     def update_config(self, config_):
         toolkit.add_template_directory(config_, 'templates')
         toolkit.add_public_directory(config_, 'public')
-        toolkit.add_resource('fanstatic', 'featured')
+        toolkit.add_resource('fanstatic', 'civicdata_featured')
 
     def get_actions(self):
         actions_dict = {
-            'featured_create': actions.featured_create,
-            'featured_show': actions.featured_show,
-            'featured_upsert': actions.featured_upsert
+            'civicdata_featured_create': actions.civicdata_featured_create,
+            'civicdata_featured_show': actions.civicdata_featured_show,
+            'civicdata_featured_upsert': actions.civicdata_featured_upsert
         }
         return actions_dict
 
     def get_helpers(self):
         helpers = {
-            'get_featured_view': _get_featured_view,
+            'get_civicdata_featured_view': _get_civicdata_featured_view,
             'get_canonical_resource_view': _get_canonical_view,
-            'get_homepage_resource_views': _get_homepage_views
+            'get_organizationpage_resource_views': _get_organizationpage_views
         }
         return helpers
 
-def _get_featured_view(resource_view_id):
+def _get_civicdata_featured_view(resource_view_id):
     if not resource_view_id:
         return None
 
-    featured = db.Featured.get(resource_view_id=resource_view_id)
+    civicdata_featured = db.Civicdata_Featured.get(resource_view_id=resource_view_id)
 
-    return featured
+    return civicdata_featured
 
 def _get_canonical_view(package_id):
-    canonical = db.Featured.find(package_id=package_id, canonical=True).first()
+    canonical = db.Civicdata_Featured.find(package_id=package_id, canonical=True).first()
 
     if not canonical:
         return None
@@ -63,25 +64,34 @@ def _get_canonical_view(package_id):
 
     return {'resource': resource, 'resource_view': resource_view}
 
-def _get_homepage_views():
-    homepage_view_ids = [
-        view.resource_view_id for view in db.Featured.find(homepage=True).all()
-    ]
+def _get_organizationpage_views():
+    organizationpage_view_ids = []
+    organizationpage_views = []
+    # list out all the resource ID whose is featured with package IDs in the organization
+    try:
+        resp = c.page.items
 
-    resource_views = model.Session.query(model.ResourceView).filter(
-        model.ResourceView.id.in_(homepage_view_ids)
-    ).all()
+        if len(resp)>0 and resp[0].has_key('id'):
+            for items in resp:
+                pkg_id = items['id']
+                for view in db.Civicdata_Featured.find(organizationpage=True, package_id=pkg_id).all():
+                    organizationpage_view_ids.append(view.resource_view_id)
 
-    homepage_views = []
-    for view in resource_views:
-        resource_view = md.resource_view_dictize(view, {'model': model})
-        resource_obj = model.Resource.get(resource_view['resource_id'])
-        resource = md.resource_dictize(resource_obj, {'model': model})
+            resource_views = model.Session.query(model.ResourceView).filter(model.ResourceView.id.in_(organizationpage_view_ids)).all()
 
-        homepage_views.append({
-            'resource_view': resource_view,
-            'resource': resource,
-            'package': md.package_dictize(resource_obj.package, {'model':model})
-        })
+            for view in resource_views:
+                resource_view = md.resource_view_dictize(view, {'model': model})
+                resource_obj = model.Resource.get(resource_view['resource_id'])
+                resource = md.resource_dictize(resource_obj, {'model': model})
 
-    return homepage_views
+                organizationpage_views.append({
+                    'resource_view': resource_view,
+                    'resource': resource,
+                    'package': md.package_dictize(resource_obj.package, {'model':model})
+                })
+
+
+    except Exception, ex:
+        print '\nDEBUG: '+str(ex)
+
+    return organizationpage_views

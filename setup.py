@@ -14,17 +14,17 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # http://packaging.python.org/en/latest/tutorial.html#version
-    version='0.0.1',
+    version='0.0.2',
 
-    description='''Display select resource views on dataset and home pages''',
+    description='''Display select resource views on dataset and organization pages''',
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/deniszgonjanin/ckanext-featuredviews',
+    url='https://github.com/tanmayAccela/ckanext-featuredviews',
 
     # Author details
-    author='''Denis Zgonjanin''',
-    author_email='''denis@boxkite.ca''',
+    author='''Tanmay''',
+    author_email='''tthakur@accela.com''',
 
     # Choose your license
     license='AGPL',

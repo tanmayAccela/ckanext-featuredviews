@@ -6,14 +6,14 @@ from sqlalchemy import types
 from ckan.model.meta import metadata,  mapper, Session
 from ckan.model.types import make_uuid
 
-featured_table = Table('featured', metadata,
+civicdata_featured_table = Table('civicdata_featured', metadata,
     Column('resource_view_id', types.UnicodeText, primary_key=True),
     Column('package_id', types.UnicodeText),
     Column('canonical', types.Boolean),
-    Column('homepage', types.Boolean)
+    Column('organizationpage', types.Boolean)
 )
 
-class Featured(model.DomainObject):
+class Civicdata_Featured(model.DomainObject):
     @classmethod
     def get(cls, **kw):
         query = model.Session.query(cls).autoflush(False)
@@ -24,4 +24,4 @@ class Featured(model.DomainObject):
         query = model.Session.query(cls).autoflush(False)
         return query.filter_by(**kw)
 
-model.meta.mapper(Featured, featured_table)
+model.meta.mapper(Civicdata_Featured, civicdata_featured_table)

@@ -14,23 +14,23 @@ schema = {
     'resource_view_id': [get_validator('not_empty'), unicode],
     'package_id': [get_validator('ignore_empty'), unicode],
     'canonical': [get_validator('boolean_validator'), unicode],
-    'homepage': [get_validator('boolean_validator'), unicode]
+    'organizationpage': [get_validator('boolean_validator'), unicode]
 }
 
 schema_get = {
     'resource_view_id': [get_validator('not_empty'), unicode]
 }
 
-def featured_create(context, data_dict):
+def civicdata_featured_create(context, data_dict):
     data, errors = df.validate(data_dict, schema, context)
 
     if errors:
         raise ValidationError(errors)
 
-    featured = db.Featured()
+    featured = db.Civicdata_Featured()
     featured.resource_view_id = data['resource_view_id']
     featured.canonical = data.get('canonical', False)
-    featured.homepage = data.get('homepage', False)
+    featured.organizationpage = data.get('organizationpage', False)
 
     resource_id = model.ResourceView.get(featured.resource_view_id).resource_id
     featured.package_id = model.Package.get(resource_id).package_id
@@ -43,35 +43,35 @@ def featured_create(context, data_dict):
 
     return table_dictize(featured, context)
 
-def featured_show(context, data_dict):
+def civicdata_featured_show(context, data_dict):
     data, errors = df.validate(data_dict, schema_get, context)
 
     if errors:
         raise ValidationError(errors)
 
-    featured = db.Featured.get(resource_view_id=data['resource_view_id'])
+    featured = db.Civicdata_Featured.get(resource_view_id=data['resource_view_id'])
     if featured is None:
         raise NotFound()
 
     return table_dictize(featured, context)
 
-def featured_upsert(context, data_dict):
+def civicdata_featured_upsert(context, data_dict):
     data, errors = df.validate(data_dict, schema, context)
 
     if errors:
         raise ValidationError(errors)
 
-    featured = db.Featured.get(resource_view_id=data['resource_view_id'])
+    featured = db.Civicdata_Featured.get(resource_view_id=data['resource_view_id'])
     if featured is None:
-        featured = db.Featured()
+        featured = db.Civicdata_Featured()
 
     featured.resource_view_id = data['resource_view_id']
 
     if data.has_key('canonical'):
         featured.canonical = data['canonical']
 
-    if data.has_key('homepage'):
-        featured.homepage = data['homepage']
+    if data.has_key('organizationpage'):
+        featured.organizationpage = data['organizationpage']
 
     resource_id = model.ResourceView.get(featured.resource_view_id).resource_id
     featured.package_id = model.Resource.get(resource_id).package_id
