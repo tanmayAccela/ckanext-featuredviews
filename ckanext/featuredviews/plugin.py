@@ -16,7 +16,7 @@ class FeaturedviewsPlugin(plugins.SingletonPlugin):
     
     # IConfigurable
     def configure(self, config):
-        if not db.civicdata_featured_table.exists():
+        if model.repo.are_tables_created()  and not db.civicdata_featured_table.exists():
             db.civicdata_featured_table.create()
 
     # IConfigurer
