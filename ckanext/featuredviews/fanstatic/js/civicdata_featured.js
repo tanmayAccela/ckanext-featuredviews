@@ -40,7 +40,7 @@ $(document).ready(function(){
     $("#organizationpagecheckbox").change(function() {
         data = {
             'resource_view_id': active_view,
-            'organizationpage': !$(this).checked,
+            'organizationpage': $(this).checked,
             'canonical': $('#canonical').hasClass('active')
         }
 
