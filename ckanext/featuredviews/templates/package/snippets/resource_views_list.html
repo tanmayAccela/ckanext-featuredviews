@@ -27,6 +27,7 @@
       <div style="float:right; display:inline-block;">
           <button id="canonical" type="button" class="btn btn-default {{ 'active' if civicdata_featured.canonical }}">{{_("Show on Dataset Page")}}</button>
           <button id="organizationpage" type="button" class="btn btn-warning {{ 'active' if civicdata_featured.organizationpage }}">{{_("Show on Organization Page")}}</button>
+          <input type="checkbox" id="organizationpagecheckbox" class="{{ 'checked' if civicdata_featured.organizationpage }}">{{_("Show on Organization Page")}}</input>
       </div>
   {% endif %}
 </ul>

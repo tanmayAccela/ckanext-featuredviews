@@ -36,4 +36,22 @@ $(document).ready(function(){
             }
         })
     });
+
+    $("#organizationpagecheckbox").change(function() {
+        data = {
+            'resource_view_id': active_view,
+            'organizationpage': !$(this).hasClass('checked'),
+            'canonical': $('#canonical').hasClass('active')
+        }
+
+        ckanapi.action('civicdata_featured_upsert', data, function(err, result){
+            if (err == null){
+                if (result['result']['organizationpage'] === 'True'){
+                    $('#organizationpagecheckbox').addClass('checked');
+                } else {
+                    $('#organizationpagecheckbox').removeClass('checked');
+                }
+            }
+        })
+    });
 });
